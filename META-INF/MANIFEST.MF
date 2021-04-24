@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: lib/zip4j-2.7.0.jar
+Main-Class: jp.co.apasys.main.Zip
+
