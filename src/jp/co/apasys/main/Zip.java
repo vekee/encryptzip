@@ -23,7 +23,7 @@ public class Zip {
 		String zipFilePath = "";
 		String password = "";
 		
-		if (args == null || args.length < 3) {
+		if (args == null || args.length < 2) {
 			System.exit(1);
 		}
 		
@@ -32,14 +32,20 @@ public class Zip {
         
         try {
     		ZipParameters zipParameters = new ZipParameters();
-    		zipParameters.setEncryptFiles(true);
-    		zipParameters.setEncryptionMethod(EncryptionMethod.ZIP_STANDARD);
     		
     		for (int i=0;i<=args.length-3;i++) {
     			filesToAdd.add(new File(args[i]));
     		}
     		
-    		ZipFile zipFile = new ZipFile(zipFilePath, password.toCharArray());
+    		ZipFile zipFile = null;
+    		if (password != null && !password.isEmpty()) {
+        		zipParameters.setEncryptFiles(true);
+        		zipParameters.setEncryptionMethod(EncryptionMethod.ZIP_STANDARD);
+    			zipFile = new ZipFile(zipFilePath, password.toCharArray());
+    		} else {
+    			zipParameters.setEncryptFiles(false);
+    			zipFile = new ZipFile(zipFilePath);
+    		}
     		zipFile.addFiles(filesToAdd, zipParameters);
 		} catch (IOException e) {
 			e.printStackTrace();
